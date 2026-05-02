@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ตัวละคร RoV ที่เกิดมาเพื่อคุณ</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky1: #c9e8ff;
+    --sky2: #87ceeb;
+    --sky3: #4aa8e0;
+    --sky4: #1a7fb5;
+    --glass-bg: rgba(255,255,255,0.22);
+    --glass-border: rgba(255,255,255,0.45);
+    --glass-shadow: 0 8px 40px rgba(30,120,200,0.18), 0 2px 12px rgba(80,160,255,0.12);
+    --text-dark: #0d2a4a;
+    --text-mid: #1e5080;
+    --text-light: rgba(255,255,255,0.92);
+    --accent: #ff6b6b;
+    --accent2: #ffd166;
+    --accent3: #06d6a0;
+    --radius: 22px;
+    --transition: 0.45s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Kanit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(160deg, #b8e4ff 0%, #7ec8e3 35%, #4aa8e0 65%, #2980b9 100%);
+    position: relative;
+  }
+
+  .clouds { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .cloud { position: absolute; opacity: 0.75; animation: cloudDrift linear infinite; }
+  .cloud svg { display: block; }
+
+  @keyframes cloudDrift {
+    from { transform: translateX(-320px); }
+    to   { transform: translateX(calc(100vw + 320px)); }
+  }
+
+  .c1 { top: 8%;  animation-duration: 38s; animation-delay: 0s; }
+  .c2 { top: 22%; animation-duration: 52s; animation-delay: -14s; }
+  .c3 { top: 40%; animation-duration: 44s; animation-delay: -6s;  opacity: 0.45; }
+  .c4 { top: 60%; animation-duration: 60s; animation-delay: -28s; opacity: 0.35; }
+  .c5 { top: 75%; animation-duration: 35s; animation-delay: -20s; opacity: 0.55; }
+
+  #app {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px;
+  }
+
+  .page { display: none; width: 100%; max-width: 720px; animation: fadeIn 0.5s ease both; }
+  .page.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    border: 1.5px solid var(--glass-border);
+    border-radius: var(--radius);
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* LANDING */
+  #page-landing { text-align: center; }
+  .logo-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.28); border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 100px; padding: 8px 20px; margin-bottom: 28px;
+    font-size: 13px; font-weight: 600; letter-spacing: 2px;
+    color: var(--text-mid); text-transform: uppercase;
+  }
+  .logo-badge span { font-size: 18px; }
+  .landing-card { padding: 52px 44px 44px; }
+  .main-title {
+    font-size: clamp(28px, 5vw, 42px); font-weight: 800; line-height: 1.2;
+    color: var(--text-dark); margin-bottom: 12px;
+    text-shadow: 0 2px 12px rgba(255,255,255,0.6);
+  }
+  .main-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, #1a7fb5, #06d6a0);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .subtitle { font-size: 15px; font-weight: 300; color: var(--text-mid); margin-bottom: 44px; line-height: 1.7; font-family: 'Sarabun', sans-serif; }
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 28px; }
+  .mode-btn {
+    background: rgba(255,255,255,0.3); border: 2px solid rgba(255,255,255,0.55);
+    border-radius: 18px; padding: 28px 20px; cursor: pointer;
+    transition: all var(--transition); text-align: center; position: relative; overflow: hidden;
+  }
+  .mode-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0));
+    opacity: 0; transition: opacity 0.3s; border-radius: 16px;
+  }
+  .mode-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 16px 40px rgba(26,127,181,0.28); border-color: rgba(255,255,255,0.8); }
+  .mode-btn:hover::before { opacity: 1; }
+  .mode-btn:active { transform: translateY(-1px) scale(0.99); }
+  .mode-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+  .mode-name { font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+  .mode-count { font-size: 13px; color: var(--text-mid); font-weight: 400; }
+  .mode-tag {
+    display: inline-block; margin-top: 10px;
+    background: rgba(26,127,181,0.18); color: var(--text-mid);
+    border-radius: 100px; padding: 3px 12px; font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  }
+  .mode-btn.quick .mode-tag { background: rgba(6,214,160,0.2); color: #0a8a6a; }
+  .mode-btn.deep .mode-tag  { background: rgba(255,107,107,0.18); color: #c04040; }
+  .footer-note { font-size: 12px; color: rgba(30,80,128,0.65); font-family: 'Sarabun', sans-serif; }
+
+  /* QUIZ */
+  .quiz-header { padding: 16px 22px; margin-bottom: 16px; }
+  .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .progress-label { font-size: 13px; color: var(--text-mid); font-weight: 500; }
+  .progress-label strong { color: var(--text-dark); font-weight: 700; }
+  .progress-track { height: 8px; background: rgba(255,255,255,0.35); border-radius: 100px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, #06d6a0, #4aa8e0, #1a7fb5);
+    border-radius: 100px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 0 10px rgba(6,214,160,0.5);
+  }
+  .role-scores-mini { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .role-pill {
+    font-size: 10px; padding: 3px 10px; border-radius: 100px;
+    background: rgba(255,255,255,0.3); color: var(--text-mid);
+    font-weight: 600; border: 1px solid rgba(255,255,255,0.5);
+  }
+
+  .question-card { padding: 36px 36px 28px; margin-bottom: 20px; }
+  .question-num { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--sky4); text-transform: uppercase; margin-bottom: 14px; }
+  .question-text { font-size: clamp(17px, 2.5vw, 22px); font-weight: 600; color: var(--text-dark); line-height: 1.55; }
+
+  .choices-grid { display: grid; gap: 12px; }
+  .choice-btn {
+    background: rgba(255,255,255,0.28); border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 14px; padding: 16px 22px; cursor: pointer;
+    text-align: left; font-family: 'Kanit', sans-serif; font-size: 15px; font-weight: 400;
+    color: var(--text-dark); transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 14px; position: relative; overflow: hidden;
+  }
+  .choice-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.35), transparent);
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .choice-btn:hover { background: rgba(255,255,255,0.48); border-color: rgba(255,255,255,0.85); transform: translateX(6px); box-shadow: 0 6px 24px rgba(26,127,181,0.2); }
+  .choice-btn:hover::after { opacity: 1; }
+  .choice-btn.selected { background: rgba(26,127,181,0.3); border-color: var(--sky4); transform: translateX(8px); box-shadow: 0 6px 24px rgba(26,127,181,0.3); }
+  .choice-btn:disabled { cursor: default; }
+  .choice-label {
+    width: 28px; height: 28px; flex-shrink: 0; background: rgba(255,255,255,0.4);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--sky4);
+  }
+  .choice-btn.selected .choice-label { background: var(--sky4); color: white; }
+
+  /* NAV BUTTONS ROW */
+  .quiz-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 16px; gap: 10px;
+  }
+
+  /* RESULT */
+  #page-result { text-align: center; }
+  .result-card { padding: 44px 40px; }
+  .result-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.2));
+    border: 2px solid rgba(255,255,255,0.6); border-radius: 100px;
+    padding: 8px 24px; margin-bottom: 20px;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--text-mid); text-transform: uppercase;
+  }
+  .result-title { font-size: 15px; font-weight: 400; color: var(--text-mid); margin-bottom: 6px; font-family: 'Sarabun', sans-serif; }
+  .result-char-name { font-size: clamp(32px, 6vw, 52px); font-weight: 800; color: var(--text-dark); line-height: 1.1; margin-bottom: 6px; text-shadow: 0 2px 16px rgba(255,255,255,0.7); }
+  .result-role { display: inline-block; padding: 5px 18px; border-radius: 100px; font-size: 13px; font-weight: 700; letter-spacing: 1px; margin-bottom: 28px; }
+  .char-avatar {
+    width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 24px;
+    border: 4px solid rgba(255,255,255,0.7);
+    box-shadow: 0 8px 32px rgba(26,127,181,0.3), 0 0 0 8px rgba(255,255,255,0.15);
+    overflow: hidden; background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(74,168,224,0.2));
+    display: flex; align-items: center; justify-content: center; font-size: 64px;
+  }
+  .char-desc { font-size: 15px; line-height: 1.8; color: var(--text-mid); font-family: 'Sarabun', sans-serif; margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .score-breakdown { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+  .score-pill { padding: 6px 16px; border-radius: 100px; background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.5); font-size: 12px; font-weight: 600; color: var(--text-mid); }
+  .score-pill.winner { background: rgba(26,127,181,0.25); border-color: var(--sky4); color: var(--sky4); }
+  .result-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* STATS */
+  .stats-card { padding: 40px 36px; }
+  .stats-title { font-size: 26px; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; }
+  .stats-sub { font-size: 14px; color: var(--text-mid); margin-bottom: 32px; font-family: 'Sarabun', sans-serif; }
+  .bar-row { margin-bottom: 20px; }
+  .bar-meta { display: flex; justify-content: space-between; margin-bottom: 7px; }
+  .bar-name { font-size: 15px; font-weight: 600; color: var(--text-dark); }
+  .bar-pct  { font-size: 14px; font-weight: 700; color: var(--sky4); }
+  .bar-track { height: 14px; background: rgba(255,255,255,0.3); border-radius: 100px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 100px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); width: 0; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 28px; border-radius: 100px;
+    font-family: 'Kanit', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; border: none; transition: all 0.3s ease; text-decoration: none;
+  }
+  .btn-primary { background: linear-gradient(135deg, #1a7fb5, #06d6a0); color: white; box-shadow: 0 6px 24px rgba(26,127,181,0.35); }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(26,127,181,0.45); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-ghost { background: rgba(255,255,255,0.3); border: 1.5px solid rgba(255,255,255,0.6); color: var(--text-dark); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.5); transform: translateY(-2px); }
+  .btn-ghost:disabled { opacity: 0.35; cursor: default; transform: none; }
+  .btn-danger { background: rgba(255,107,107,0.25); border: 1.5px solid rgba(255,107,107,0.4); color: #c04040; }
+  .btn-danger:hover { background: rgba(255,107,107,0.4); transform: translateY(-2px); }
+
+  /* ROLE COLORS */
+  .role-Marksman { background: rgba(255,165,0,0.2);  color: #a05800; border: 1px solid rgba(255,165,0,0.4); }
+  .role-Mage     { background: rgba(138,43,226,0.2); color: #5a1a90; border: 1px solid rgba(138,43,226,0.35); }
+  .role-Assassin { background: rgba(220,20,60,0.2);  color: #8b0020; border: 1px solid rgba(220,20,60,0.35); }
+  .role-Warrior  { background: rgba(205,92,92,0.2);  color: #7a2020; border: 1px solid rgba(205,92,92,0.35); }
+  .role-Tank     { background: rgba(70,130,180,0.2); color: #1a4a70; border: 1px solid rgba(70,130,180,0.4); }
+  .role-Support  { background: rgba(32,178,170,0.2); color: #0a5550; border: 1px solid rgba(32,178,170,0.35); }
+  .bar-Marksman { background: linear-gradient(90deg, #ffb347, #ffd166); }
+  .bar-Mage     { background: linear-gradient(90deg, #9b59b6, #d98cf7); }
+  .bar-Assassin { background: linear-gradient(90deg, #e74c3c, #ff6b6b); }
+  .bar-Warrior  { background: linear-gradient(90deg, #c0392b, #e57373); }
+  .bar-Tank     { background: linear-gradient(90deg, #2980b9, #74b9e7); }
+  .bar-Support  { background: linear-gradient(90deg, #1abc9c, #55efc4); }
+
+  @media (max-width: 520px) {
+    .mode-grid { grid-template-columns: 1fr; }
+    .landing-card { padding: 36px 24px 30px; }
+    .question-card { padding: 26px 22px 20px; }
+    .result-card { padding: 32px 22px; }
+    .stats-card { padding: 28px 20px; }
+    .quiz-nav { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="clouds" aria-hidden="true">
+  <div class="cloud c1"><svg width="280" height="80" viewBox="0 0 280 80" fill="none"><ellipse cx="140" cy="56" rx="120" ry="22" fill="white"/><ellipse cx="90" cy="44" rx="60" ry="26" fill="white"/><ellipse cx="170" cy="38" rx="72" ry="32" fill="white"/><ellipse cx="220" cy="50" rx="50" ry="20" fill="white"/></svg></div>
+  <div class="cloud c2"><svg width="360" height="90" viewBox="0 0 360 90" fill="none"><ellipse cx="180" cy="64" rx="155" ry="22" fill="white"/><ellipse cx="110" cy="50" rx="80" ry="32" fill="white"/><ellipse cx="220" cy="42" rx="95" ry="36" fill="white"/><ellipse cx="300" cy="58" rx="60" ry="22" fill="white"/></svg></div>
+  <div class="cloud c3"><svg width="200" height="60" viewBox="0 0 200 60" fill="none"><ellipse cx="100" cy="44" rx="85" ry="16" fill="white"/><ellipse cx="65" cy="34" rx="45" ry="22" fill="white"/><ellipse cx="130" cy="30" rx="55" ry="26" fill="white"/></svg></div>
+  <div class="cloud c4"><svg width="240" height="70" viewBox="0 0 240 70" fill="none"><ellipse cx="120" cy="50" rx="100" ry="18" fill="white"/><ellipse cx="80" cy="38" rx="55" ry="26" fill="white"/><ellipse cx="155" cy="33" rx="65" ry="28" fill="white"/></svg></div>
+  <div class="cloud c5"><svg width="180" height="55" viewBox="0 0 180 55" fill="none"><ellipse cx="90" cy="40" rx="75" ry="15" fill="white"/><ellipse cx="58" cy="30" rx="40" ry="20" fill="white"/><ellipse cx="118" cy="26" rx="50" ry="24" fill="white"/></svg></div>
+</div>
+
+<div id="app">
+
+  <!-- LANDING -->
+  <div id="page-landing" class="page active">
+    <div style="text-align:center; margin-bottom:16px;">
+      <div class="logo-badge"><span>⚔️</span> RoV QUIZ</div>
+    </div>
+    <div class="glass landing-card">
+      <h1 class="main-title">ตัวละคร RoV ตัวไหน<br><em>ที่เกิดมาเพื่อคุณ?</em></h1>
+      <p class="subtitle">ตอบคำถามง่ายๆ เพื่อค้นหาตัวละคร Arena of Valor<br>ที่ตรงกับสไตล์และบุคลิกของคุณมากที่สุด</p>
+      <div class="mode-grid">
+        <button class="mode-btn quick glass" onclick="startQuiz('quick')">
+          <span class="mode-icon">⚡</span>
+          <div class="mode-name">Quick Mode</div>
+          <div class="mode-count">คำถามสั้นๆ สไตล์เร็ว</div>
+          <div class="mode-tag">25 คำถาม</div>
+        </button>
+        <button class="mode-btn deep glass" onclick="startQuiz('deep')">
+          <span class="mode-icon">🔍</span>
+          <div class="mode-name">Deep Dive</div>
+          <div class="mode-count">วิเคราะห์ลึกกว่าเดิม</div>
+          <div class="mode-tag">70 คำถาม</div>
+        </button>
+      </div>
+      <p class="footer-note">มีตัวละครให้ค้นพบทั้งหมด 6 บทบาท · 125 ตัวละคร</p>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="page-quiz" class="page">
+    <div class="quiz-header glass">
+      <div class="progress-info">
+        <span class="progress-label">คำถามที่ <strong id="q-current">1</strong> / <strong id="q-total">25</strong></span>
+        <span class="progress-label" id="mode-label">Quick Mode</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="role-scores-mini" id="role-scores-mini"></div>
+    </div>
+    <div class="glass question-card">
+      <div class="question-num" id="q-num">คำถามที่ 1</div>
+      <div class="question-text" id="q-text">กำลังโหลด...</div>
+    </div>
+    <div class="choices-grid" id="choices-grid"></div>
+    <div class="quiz-nav">
+      <button class="btn btn-ghost" id="btn-back" onclick="goBack()">← ย้อนกลับ</button>
+      <button class="btn btn-danger" onclick="confirmQuit()" style="font-size:13px; padding:9px 20px;">✕ ออก</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="page-result" class="page">
+    <div class="glass result-card">
+      <div class="result-badge">🎉 ผลลัพธ์ของคุณ</div>
+      <div class="result-title">ตัวละครที่เหมาะกับคุณที่สุดคือ...</div>
+      <div class="char-avatar" id="result-avatar">🗡️</div>
+      <h2 class="result-char-name" id="result-name">-</h2>
+      <div class="result-role" id="result-role">-</div>
+      <p class="char-desc" id="result-desc">-</p>
+      <div class="score-breakdown" id="score-breakdown"></div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="goToPage('page-landing')">🔄 เล่นอีกครั้ง</button>
+        <button class="btn btn-ghost" onclick="goToStats()">📊 ดูสถิติรวม</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div id="page-stats" class="page">
+    <div class="glass stats-card">
+      <h2 class="stats-title">📊 สถิติผลลัพธ์</h2>
+      <p class="stats-sub">รวมข้อมูลจากผู้เล่นทั้งหมด — บทบาทไหนโดนใจคนส่วนมาก?</p>
+      <div id="bar-chart"></div>
+      <div style="margin-top:32px; display:flex; gap:12px; flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="goToPage('page-landing')">🏠 กลับหน้าหลัก</button>
+        <button class="btn btn-ghost" onclick="startQuiz('quick')">⚡ เล่นอีกครั้ง</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const ROLES = {
+  Marksman: {
+    emoji: '🏹', color: 'bar-Marksman', desc: 'นักยิงระยะไกล ดีลสูง เน้น Carry ทีม',
+    chars: [
+      { name:'Valhein',    emoji:'🎯', desc:'พลังโจมตีไวและแม่นยำ เหมาะกับผู้เล่นที่ชอบดีลต่อเนื่องและมีสติในการ Position' },
+      { name:'Violet',     emoji:'🔫', desc:'นักยิงสุดเท่ ผลักดันเลนได้เก่ง พลังช่วงกลาง-ปลายเกมสูงมาก' },
+      { name:'Yorn',       emoji:'⚡', desc:'สกิลช่วงทดสอบศัตรูในระยะไกล Teamfight ทรงพลัง' },
+      { name:'Fennik',     emoji:'🦊', desc:'เคลื่อนที่เร็ว วางกับดักได้ ชอบเล่นเป็นเกมกลยุทธ์' },
+      { name:'Slimz',      emoji:'🐸', desc:'กระโดดสูง จู่โจมได้หลายทิศ เหมาะกับสายชอบไฮไลท์' },
+      { name:'The Joker',  emoji:'🃏', desc:'สร้างความโกลาหลในสนาม เล่นสนุกและคาดเดายาก' },
+      { name:"Tel'Annas",  emoji:'🧝', desc:'เอลฟ์นักยิง ดีลเจาะ Armor สูง เหมาะกับเกมยาว' },
+      { name:'Moren',      emoji:'🔩', desc:'โจมตีในพื้นที่กว้าง Burst Damage ระเบิดพลัง' },
+      { name:'Lindis',     emoji:'🐺', desc:'ล่าศัตรูโดดเดี่ยว ลอบโจมตีจากป่า ชอบ Solo Play' },
+      { name:'Wisp',       emoji:'✨', desc:'ยิงพร้อมกันหลายนัด สนับสนุนทีมได้ดีในยุทธการใหญ่' },
+      { name:'Elsu',       emoji:'🦅', desc:'สไนเปอร์ระยะไกลสุด ชอบยิงจากที่ปลอดภัย' },
+      { name:'Hayate',     emoji:'🌪️', desc:'ซามูไรนักยิง เคลื่อนที่เร็วและตีหนักในเวลาเดียว' },
+      { name:'Capheny',    emoji:'🔋', desc:'ระเบิดพลังสูงสุดท้ายเกม รอเวลาแล้วโกย' },
+      { name:'Celica',     emoji:'🌸', desc:'นักยิงสดใส ดีลรวดเร็ว ชอบการเคลื่อนไหวแบบ Dance' },
+      { name:"Eland'orr",  emoji:'🌿', desc:'เอลฟ์ป่า ซุ่มโจมตีและพลางตัวได้ดี' },
+      { name:'Laville',    emoji:'🎩', desc:'นักสืบนักยิง Burst สูงเน้นฆ่าเป้าหมายเดียว' },
+      { name:'Thorne',     emoji:'🌹', desc:'กุหลาบเจ้าแค้น ดีลพิษและชะลอศัตรู' },
+      { name:'Bright',     emoji:'☀️', desc:'สดใสร่าเริง แต่อันตรายในสนาม ดีลไฟแรงมาก' },
+      { name:'Stuart',     emoji:'🚂', desc:'ขับรถพ่นไฟ รุกเร้าสนาม ชอบระเบิดกลุ่ม' },
+      { name:'Erin',       emoji:'🎀', desc:'ดีลหนักและซุ่มยิงได้ดี เหมาะกับสาย Solo Queue' },
+      { name:'Billow',     emoji:'🌊', desc:'นักยิงสายน้ำ ดีลต่อเนื่องและลื่นไหลเหมือนคลื่น' },
+    ]
+  },
+  Mage: {
+    emoji: '🔮', color: 'bar-Mage', desc: 'นักเวทย์ดีลสูง เน้น Burst Magic Damage',
+    chars: [
+      { name:'Veera',    emoji:'🐝', desc:'แมลงพิษนักเวท ดีล DoT สูง เหมาะกับสายอดทน' },
+      { name:'Krixi',    emoji:'🧚', desc:'นางฟ้าเวทย์ บินโฉบและยิงเวทย์ได้พร้อมกัน' },
+      { name:'Kahlii',   emoji:'💀', desc:'วิญญาณอาฆาต Burst สูงมากในช่วง Teamfight' },
+      { name:"Azzen'Ka", emoji:'🌀', desc:'จ่อยิงช่อง Control พื้นที่ได้ดีเยี่ยม' },
+      { name:'Alice',    emoji:'🃏', desc:'ผจญภัยในแดนมหัศจรรย์ ชอบ Poke ระยะไกล' },
+      { name:'Aleister', emoji:'🦇', desc:'นักเวทย์มืด ดีล Burst ฆ่าได้จากระยะปลอดภัย' },
+      { name:'Natalya',  emoji:'❄️', desc:'แช่แข็งศัตรู ควบคุมการต่อสู้ได้ดีเยี่ยม' },
+      { name:'Jinna',    emoji:'🔥', desc:'เวทย์ไฟ Burst สูง ชอบอยู่กลางวง Teamfight' },
+      { name:'Ilumia',   emoji:'💫', desc:'ยิงลำแสงในพื้นที่กว้าง สนับสนุนทีมได้ดี' },
+      { name:'Preyta',   emoji:'🧪', desc:'นักวิทย์บ้า ดีลพิษและควบคุมในเวลาเดียว' },
+      { name:'Raz',      emoji:'🤖', desc:'หุ่นยนต์เวทย์ เน้น Poke ระยะกลาง ทรงพลัง' },
+      { name:'Lauriel',  emoji:'👼', desc:'เทวทูตเวทย์ ดีลต่อเนื่องและบินได้ Escape' },
+      { name:'Ignis',    emoji:'🌋', desc:'เวทย์ลาวา ระเบิดพื้นที่ AoE สูงมาก' },
+      { name:'Zill',     emoji:'💨', desc:'เจ้าลม เคลื่อนที่เร็วและดีลลมแรง' },
+      { name:'Tulen',    emoji:'⚡', desc:'เทพสายฟ้า Mobility สูงมาก ชอบสาย Carry' },
+      { name:'Liliana',  emoji:'🌺', desc:'เวทย์ดอกไม้ ดีลสวย และมีสกิล Crowd Control' },
+      { name:'The Flash',emoji:'💥', desc:'วีรบุรุษเร็วแสง Burst ทั้งทีมในพริบตา' },
+      { name:'Marja',    emoji:'🌊', desc:'แม่มดน้ำแข็ง ชะลอศัตรูและดีลพร้อมกัน' },
+      { name:'Jna',      emoji:'🎵', desc:'เวทย์ดนตรี ดีลตามจังหวะ ชอบคนมีรสนิยม' },
+      { name:"D'Arcy",   emoji:'🌑', desc:'เวทย์มืดทรงพลัง Burst สูง เอาตัวรอดได้ดี' },
+      { name:'Ishar',    emoji:'🕯️', desc:'ควบคุมเวลาได้ Reset สกิล ชอบเล่นยาว' },
+      { name:'Dirak',    emoji:'🎆', desc:'ระเบิดดาว Burst สูงมากในจุดศูนย์กลาง' },
+      { name:'Zata',     emoji:'🌠', desc:'นักเวทย์จักรวาล ดีลในวงกว้าง Teamfight' },
+      { name:'Lorion',   emoji:'⚗️', desc:'นักวิทย์ขาย Buff ทีมและดีลสม่ำเสมอ' },
+      { name:'Iggy',     emoji:'🦎', desc:'นักเวทย์ค้างคาว ปล่อยฝูงสัตว์ Crowd Control' },
+      { name:'Yue',      emoji:'🌙', desc:'เทพธิดาจันทร์ ดีลตอนกลางคืน/รอบ Buff' },
+      { name:'Bonnie',   emoji:'🍬', desc:'เวทย์หวาน แต่พิษของเธอรุนแรงมาก' },
+      { name:'Kaine',    emoji:'⚔️', desc:'นักเวทย์สงคราม ดีลและ Sustain อยู่ได้นาน' },
+      { name:'Dyadia',   emoji:'🌗', desc:'เทพธิดาสองหน้า สลับโหมดแสงและมืด ดีลหลากหลายสุดยอด' },
+    ]
+  },
+  Assassin: {
+    emoji: '🗡️', color: 'bar-Assassin', desc: 'นักฆ่าพลังสูง เน้น Burst และ Mobility',
+    chars: [
+      { name:'Butterfly',  emoji:'🦋', desc:'นักฆ่าผีเสื้อ เคลื่อนที่เงียบ ฆ่าในพริบตา' },
+      { name:'Nakroth',    emoji:'🃏', desc:'ตัวตลกสายฆ่า เคลื่อนที่บ้าคลั่ง กดดันศัตรูไม่หยุด' },
+      { name:'Zephys',     emoji:'⚡', desc:'เทพสายฟ้า Roam ทั่วแผนที่ Gank สายฟ้า' },
+      { name:'WuKong',     emoji:'🐒', desc:'ราชาวานร สร้างหุ่นลวง ชอบแบบฉลาดและโกง' },
+      { name:'Kriknak',    emoji:'🦟', desc:'แมลงสาบนักฆ่า กระโดดไวและ Burst แรง' },
+      { name:'Murat',      emoji:'🗡️', desc:'นักรบทะเลทราย ดีล Burst และ Escape ได้ดี' },
+      { name:'Airi',       emoji:'🌸', desc:'นักฆ่าน่ารัก หลบหลีกเก่ง สายสปีดและดีล' },
+      { name:'Quillen',    emoji:'🎯', desc:'สไนเปอร์สายฆ่า ลอบเข้าตีจากมุมมืด' },
+      { name:'Enzo',       emoji:'🏍️', desc:'บิกเกอร์นักฆ่า ระเบิดพลัง Burst ทีละคน' },
+      { name:'Keera',      emoji:'🐉', desc:'นักฆ่ามังกร Transform ร่างได้ อันตรายมาก' },
+      { name:'Paine',      emoji:'💊', desc:'สายแพทย์นักฆ่า ดีลต่อเนื่องและรักษาตัวเอง' },
+      { name:'Sinestrea',  emoji:'🌑', desc:'ดูดชีพและ Burst สูงสุด เล่นง่ายแต่อันตราย' },
+      { name:'Aoi',        emoji:'🎎', desc:'นักฆ่าญี่ปุ่น เงียบงัน แต่ทรงพลังเมื่อถึงเวลา' },
+      { name:'Yan',        emoji:'🌊', desc:'นักฆ่าน้ำ ดักซุ่มใต้น้ำ ออกมาฆ่าในพริบตา' },
+      { name:'Ming',       emoji:'⚙️', desc:'นักฆ่าหุ่นยนต์ ระเบิดสายฟ้าอย่างรวดเร็ว' },
+      { name:'Biron',      emoji:'🐻', desc:'นักฆ่าหมีป่า ดุดันและโหดเหี้ยม ฆ่าด้วยกำลังดิบ' },
+    ]
+  },
+  Warrior: {
+    emoji: '⚔️', color: 'bar-Warrior', desc: 'นักรบแข็งแกร่ง สู้แบบประชิด ทน-ดีลดี',
+    chars: [
+      { name:'Ormarr',      emoji:'🪨', desc:'นักรบหินมหึมา กระแทกศัตรูกองรวมกัน ชอบ Teamfight' },
+      { name:'Thane',       emoji:'⚔️', desc:'อัศวินเกราะหนัก โยนค้อนโจมตีจากระยะไกล' },
+      { name:'Lu Bu',       emoji:'🐎', desc:'นายพลสงคราม แข็งแกร่งและดีลสูงมาก' },
+      { name:'Zanis',       emoji:'🐉', desc:'นักรบมังกร ยิ่งฆ่ายิ่งแข็งแกร่ง Snowball สูง' },
+      { name:'Omega',       emoji:'🤖', desc:'หุ่นยนต์นักรบ ทั้งทนทั้งดีล เหมาะกับสาย Solo' },
+      { name:'Wonder Woman',emoji:'🦅', desc:'วีรสตรีลีกยุติธรรม สู้ได้ทุกสถานการณ์' },
+      { name:'Arthur',      emoji:'🏰', desc:'กษัตริย์อาเธอร์ ดีลและ Sustain ระดับ King' },
+      { name:'Skud',        emoji:'🪓', desc:'นักรบป่าเถื่อน Burst แรงและชาร์จข้ามสนาม' },
+      { name:'Maloch',      emoji:'👹', desc:'ปีศาจนักรบ ดูดพลังและ Sustain ยาวนาน' },
+      { name:'Astrid',      emoji:'🛡️', desc:'นักรบสาวแกร่ง ดีลและรับดาเมจในเวลาเดียว' },
+      { name:'Ryoma',       emoji:'🎴', desc:'ซามูไร เคลื่อนที่เร็ว ดีลทะลุใน 1-2 คม' },
+      { name:'Max',         emoji:'💪', desc:'นักรบพลังยิม ดีลต่อเนื่องและ Stack Passive' },
+      { name:'Arduin',      emoji:'🔥', desc:'นักรบไฟ ยิ่งสู้ยิ่งร้อน ดีลตอนท้ายสูงมาก' },
+      { name:"Kil'Groth",   emoji:'🦀', desc:'ราชาปู Burst สูง และ Chase ศัตรูได้ไม่หยุด' },
+      { name:'Omen',        emoji:'🌑', desc:'นักรบเงามืด Burst และ Escape ได้ทั้งคู่' },
+      { name:'Wiro',        emoji:'🐧', desc:'นักรบเพนกวิน ดูตลกแต่ดีลจริงจังมาก' },
+      { name:'Richter',     emoji:'⚒️', desc:'นักขุดแร่เปลี่ยน Burst สูงเมื่อเปิดโหมด Rage' },
+      { name:'Florentino',  emoji:'🌹', desc:'นักดาบสุภาพบุรุษ คอมโบหวาดเวียนสุดอลังการ' },
+      { name:'Veres',       emoji:'🐍', desc:'เจ้าหญิงงูพิษ ดีลต่อเนื่องและพิษสะสม' },
+      { name:'Yena',        emoji:'🦁', desc:'สาวไฮยีน่า รุกรานอย่างดุเดือด ติดตามไม่หยุด' },
+      { name:'Qi',          emoji:'💨', desc:'ดาบลม เคลื่อนที่ว่องไว ดีลในพริบตา' },
+      { name:'Volkath',     emoji:'👿', desc:'ปีศาจสงคราม ยิ่งพลังน้อยยิ่งอันตราย' },
+      { name:'Ata',         emoji:'🌋', desc:'ยักษ์ภูเขาไฟ แข็งแกร่งและระเบิดพลังได้' },
+      { name:'Allain',      emoji:'🗡️', desc:'นักรบดาบสองมือ คอมโบยาวและดีลหนัก' },
+      { name:'Dextar',      emoji:'🎯', desc:'นักรบนักยิง ดีลได้ทั้งระยะไกลและประชิด' },
+      { name:'Tachi',       emoji:'⚔️', desc:'ซามูไรกำมะหยี่ ท่วงท่างาม แต่ดีลร้ายกาจ' },
+      { name:'Bijan',       emoji:'🔱', desc:'นักรบท้องฟ้า ดีลสายฟ้าและ Stun ทั้งทีม' },
+      { name:'Heino',       emoji:'🪖', desc:'นักรบทหารอาชีพ แข็งแกร่งทั้งรุกและรับ ยืนหยัดได้ทุกสถานการณ์' },
+    ]
+  },
+  Tank: {
+    emoji: '🛡️', color: 'bar-Tank', desc: 'แทงก์เหล็ก รับดาเมจ ปกป้องทีม',
+    chars: [
+      { name:'Toro',     emoji:'🐂', desc:'วัวเหล็ก ชาร์จเปิดเกม กั้นทางศัตรูทั้งทีม' },
+      { name:'Mina',     emoji:'🐟', desc:'ปลาแทงก์ กางกระโปรงดูดศัตรู ดึงเข้าสู่วง' },
+      { name:'Grakk',    emoji:'🦑', desc:'หมึกยักษ์ ดูดศัตรูเข้ามาแล้วปล่อยเพื่อน' },
+      { name:'Lumburr',  emoji:'🐘', desc:'ช้างยักษ์ทนทาน กระแทกศัตรูเป็นกลุ่ม' },
+      { name:'Cresht',   emoji:'🦀', desc:'ปูยักษ์เกราะหนา เปิดเกมและปกป้องทีม' },
+      { name:'Chaugnar', emoji:'🐘', desc:'เทพช้างมหึมา ยิ่งทนยิ่งอันตรายกับคนโจมตีมา' },
+      { name:'Taara',    emoji:'🌿', desc:'นักรบธรรมชาติ ยิ่งสู้ยิ่งฟื้น สายทนสุดๆ' },
+      { name:'Xeniel',   emoji:'⚔️', desc:'อัศวินแสง เสียสละตัวเองปกป้องพวกพ้อง' },
+      { name:'Baldum',   emoji:'🏔️', desc:'ภูเขาเดินได้ โยนศัตรูทิ้ง เปิดเกมแบบ Epic' },
+      { name:"Y'bneth",  emoji:'🌲', desc:'ต้นไม้ยักษ์ ขวางทางศัตรู ปกป้องดินแดน' },
+      { name:'Zip',      emoji:'🎪', desc:'ตัวตลกแทงก์ กลืนพวกพ้องแล้วพาไปปลอดภัย' },
+      { name:'Rouie',    emoji:'🌀', desc:'แทงก์วอร์ป เปิดพอร์ทัลให้ทีมเข้าตีจากทุกทิศ' },
+      { name:'Teeri',    emoji:'🦔', desc:'เม่นเกราะ ยิ่งถูกโจมตียิ่งอันตราย ชอบคนโดนยิง' },
+      { name:'Bolt Baron',emoji:'⚡', desc:'บารอนสายฟ้า กั้นพื้นที่ด้วยไฟฟ้า ทั้งทนและคุม' },
+    ]
+  },
+  Support: {
+    emoji: '💚', color: 'bar-Support', desc: 'ซัพพอร์ตทีม รักษา บัฟ ช่วยเพื่อน',
+    chars: [
+      { name:'Helen',   emoji:'💉', desc:'พยาบาลแนวหน้า รักษาพวกพ้องอย่างไม่ย่อท้อ' },
+      { name:'TeeMee',  emoji:'🐱', desc:'แมวมงคล ส่งเสริมทีม บัฟสปีดและ Shield' },
+      { name:'Annette', emoji:'🌬️', desc:'เวทย์ลม ผลักศัตรูออก และ Buff ทีมไม่หยุด' },
+      { name:'Sephera', emoji:'🌸', desc:'นางฟ้ารักษา ฟื้นฟูทั้งทีมในยุทธการใหญ่' },
+      { name:'Krizzix', emoji:'🐊', desc:'จระเข้ซัพ บัฟทีมและ Crowd Control ศัตรู' },
+      { name:'Aya',     emoji:'🐰', desc:'กระต่ายน้อย ตัวเล็กแต่รักษาเยอะมาก Buff ไม่หยุด' },
+      { name:'Dolia',   emoji:'🎀', desc:'ซัพสาวหวาน โยนโล่ปกป้องพวกพ้องและ Buff ทั้งทีม' },
+    ]
+  }
+};
+
+// ============================================================
+// QUESTIONS — Quick Mode (25 ข้อ)
+// ============================================================
+const QUESTIONS_QUICK = [
+  {
+    text: "คุณชอบนั่งตรงไหนในงานปาร์ตี้?",
+    choices: [
+      { text:"🌟 อยู่กลางวง สนุกกับทุกคนเต็มที่", scores: {Warrior:2, Mage:1} },
+      { text:"🔭 มุมไกลๆ สังเกตการณ์และเลือกเวลา", scores: {Marksman:2, Assassin:1} },
+      { text:"🤝 เดินช่วยงานโน่นนี่ ดูแลให้งานลื่น", scores: {Support:3, Tank:1} },
+      { text:"🦅 เวียนทั่ว เข้าหาคนน่าสนใจแล้วหายไป", scores: {Assassin:3} },
+    ]
+  },
+  {
+    text: "ถ้าบ้านถูกปล้น คุณจะทำอะไรก่อน?",
+    choices: [
+      { text:"📞 โทรตำรวจทันที วางแผนก่อนลงมือ", scores: {Support:2, Mage:1} },
+      { text:"🔦 ซุ่มรอในมืด แล้วบุกจู่โจมเมื่อได้จังหวะ", scores: {Assassin:3} },
+      { text:"🚪 กั้นทางไว้ ไม่ให้เขาหนี", scores: {Tank:3} },
+      { text:"💪 ออกไปเผชิญหน้าตรงๆ ไม่ให้ผ่านไปได้", scores: {Warrior:3} },
+    ]
+  },
+  {
+    text: "เวลาดูหนัง คุณชอบนั่งตรงไหนในโรงหนัง?",
+    choices: [
+      { text:"🎯 แถวหลังสุด เห็นทุกอย่าง ไม่มีใครบัง", scores: {Marksman:3} },
+      { text:"🔥 แถวกลาง จุดที่เสียงและภาพดีที่สุด", scores: {Mage:2, Warrior:1} },
+      { text:"🚪 ริมทางเดิน ออกได้ง่ายถ้าจำเป็น", scores: {Assassin:2} },
+      { text:"💺 ไม่สน ขอแค่ใกล้เพื่อนพอ", scores: {Support:3, Tank:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องข้ามแม่น้ำกว้าง คุณจะข้ามยังไง?",
+    choices: [
+      { text:"🌉 ใช้สะพาน ปลอดภัยกว่า ไม่เสี่ยง", scores: {Marksman:2, Support:1} },
+      { text:"🏊 ว่ายน้ำข้ามตรงๆ เร็วที่สุด", scores: {Warrior:3} },
+      { text:"🦅 หาทางลัดที่คนอื่นไม่รู้จัก", scores: {Assassin:3} },
+      { text:"🛶 ต่อแพพาทุกคนข้ามด้วยกัน", scores: {Tank:2, Support:2} },
+    ]
+  },
+  {
+    text: "เมื่อไฟดับกลางคืน คุณรู้สึกอย่างไร?",
+    choices: [
+      { text:"🕯️ หยิบเทียนจุด จัดการได้เองสบาย", scores: {Warrior:2, Mage:1} },
+      { text:"🦉 ตื่นเต้น มืดๆ ก็ชอบ รู้สึกได้เปรียบ", scores: {Assassin:3} },
+      { text:"📱 เปิดไฟฉายโทรศัพท์ ให้ทุกคนมองเห็น", scores: {Support:3} },
+      { text:"🚪 ไปยืนกั้นประตูไว้ก่อน ระวังไว้ดีกว่า", scores: {Tank:3} },
+    ]
+  },
+  {
+    text: "คุณสั่งอาหารสไตล์ไหนบ่อยที่สุด?",
+    choices: [
+      { text:"🎯 เมนูที่ทำให้อิ่มนานและมีพลังงานสูง", scores: {Warrior:2, Tank:1} },
+      { text:"⚡ อาหารที่กินเร็ว จบเร็ว ไม่เสียเวลา", scores: {Assassin:2, Marksman:1} },
+      { text:"🍱 ออเดอร์ให้ทุกคนในโต๊ะ จัดการทุกอย่างเอง", scores: {Support:3} },
+      { text:"🔮 เมนูสลับซับซ้อน ชอบลองอะไรแปลกใหม่", scores: {Mage:2, Warrior:1} },
+    ]
+  },
+  {
+    text: "คุณเลือกที่นอนยังไงเวลาค้างคืนที่บ้านเพื่อน?",
+    choices: [
+      { text:"🏰 มุมที่เห็นประตูและหน้าต่างได้ทั้งหมด", scores: {Marksman:2, Tank:1} },
+      { text:"🌙 มุมมืดที่สุด เงียบที่สุด ห่างคน", scores: {Assassin:3} },
+      { text:"🤝 ข้างๆ เพื่อน นอนรวมกันสนุกกว่า", scores: {Support:3} },
+      { text:"💪 ตรงกลาง เดินได้ทุกทิศ ไม่ติดมุม", scores: {Warrior:2, Mage:1} },
+    ]
+  },
+  {
+    text: "ถ้าเล่นซ่อนหา คุณชอบเป็นฝ่ายไหน?",
+    choices: [
+      { text:"👁️ ฝ่ายหา สนุกกว่า ได้ไล่ล่า", scores: {Assassin:3, Marksman:1} },
+      { text:"🪨 ฝ่ายซ่อน ชอบนิ่งรอ ใจเย็น", scores: {Tank:2, Support:1} },
+      { text:"🎭 ฝ่ายซ่อนแล้วทำให้คนอื่นหาไม่เจอด้วยกลอุบาย", scores: {Mage:2, Assassin:1} },
+      { text:"🌟 ไม่แคร์ฝ่ายไหน ขอให้สนุกก็พอ", scores: {Warrior:2, Support:1} },
+    ]
+  },
+  {
+    text: "คุณจัดการ inbox อีเมลยังไง?",
+    choices: [
+      { text:"📥 ตอบทุกอีเมลอย่างรวดเร็ว ไม่ทิ้งค้าง", scores: {Support:2, Marksman:1} },
+      { text:"🗂️ จัดโฟลเดอร์ให้เป็นระเบียบก่อนตอบ", scores: {Mage:2, Tank:1} },
+      { text:"💥 เปิดอ่านอีเมลสำคัญก่อน อย่างอื่นรอได้", scores: {Assassin:2, Warrior:1} },
+      { text:"📧 ปล่อยสะสมแล้วล้างทีเดียวเมื่อมีเวลา", scores: {Warrior:2, Mage:1} },
+    ]
+  },
+  {
+    text: "คุณชอบรับชมกีฬาแบบไหน?",
+    choices: [
+      { text:"🏹 กีฬาที่ต้องการความแม่นยำสูง เช่น ยิงธนู กอล์ฟ", scores: {Marksman:3} },
+      { text:"⚡ กีฬาที่เร็วและตื่นเต้น เช่น F1 มวย", scores: {Assassin:2, Warrior:1} },
+      { text:"🏈 กีฬาทีมที่ต้องวางแผนซับซ้อน เช่น อเมริกันฟุตบอล", scores: {Mage:2, Support:1} },
+      { text:"🛡️ กีฬาที่แสดงพลังและความอดทน เช่น ยกน้ำหนัก", scores: {Tank:2, Warrior:2} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกยานพาหนะในโลกแฟนตาซี คุณเลือกอะไร?",
+    choices: [
+      { text:"🦅 นกยักษ์ — บินได้ เร็ว มองเห็นทุกอย่างจากบน", scores: {Marksman:3} },
+      { text:"🐉 มังกร — ทรงพลัง ครอบงำทุกอย่าง", scores: {Warrior:2, Mage:1} },
+      { text:"🌫️ ม้าเงา — เร็วเหมือนลม หายตัวได้ในคืน", scores: {Assassin:3} },
+      { text:"🏔️ เต่ายักษ์ — ช้าแต่ปลอดภัยสูงสุด พาเพื่อนได้เยอะ", scores: {Tank:2, Support:2} },
+    ]
+  },
+  {
+    text: "เวลาซื้อของ คุณตัดสินใจยังไง?",
+    choices: [
+      { text:"🎯 เปรียบเทียบราคาและรีวิวอย่างละเอียดก่อนซื้อ", scores: {Marksman:2, Mage:1} },
+      { text:"⚡ เห็นแล้วชอบ ซื้อเลย ไม่ลังเล", scores: {Assassin:3} },
+      { text:"🛡️ ขอให้คุ้มค่าและทนทาน แม้แพงหน่อยก็ได้", scores: {Tank:2, Warrior:1} },
+      { text:"🤝 ถามความเห็นเพื่อนก่อน ใช้ด้วยกันสนุกกว่า", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณฟังเพลงสไตล์ไหน?",
+    choices: [
+      { text:"🎵 เพลงที่ทำให้รู้สึกทรงพลังและกล้าหาญ", scores: {Warrior:2, Mage:1} },
+      { text:"🌙 เพลงที่ฟังคนเดียวตอนดึก เนื้อหาลึกซึ้ง", scores: {Assassin:2, Mage:1} },
+      { text:"🎸 เพลงเร็วๆ ม้วนๆ ฟังแล้วอยากลุกขึ้นทำอะไร", scores: {Assassin:2, Warrior:1} },
+      { text:"☀️ เพลงสดใสร่าเริง ฟังแล้วอยากช่วยคนอื่น", scores: {Support:3, Marksman:1} },
+    ]
+  },
+  {
+    text: "ถ้าเป็นสัตว์ในป่า คุณอยากเป็นอะไร?",
+    choices: [
+      { text:"🦅 อินทรีย์ — มองการณ์ไกล โจมตีแม่นยำ", scores: {Marksman:3} },
+      { text:"🐯 เสือ — ล่าเดี่ยว เร็ว ลอบโจมตี", scores: {Assassin:3} },
+      { text:"🦁 สิงโต — ผู้นำฝูง ต่อสู้เต็มที่", scores: {Warrior:3} },
+      { text:"🐘 ช้าง — แข็งแกร่ง ปกป้องฝูง ไม่มีใครรังแก", scores: {Tank:2, Support:2} },
+    ]
+  },
+  {
+    text: "คุณชอบอยู่ในกลุ่มเพื่อนแบบไหน?",
+    choices: [
+      { text:"👑 เป็นคนที่ทุกคนมาถามและพึ่งพา", scores: {Marksman:2, Warrior:1} },
+      { text:"🧠 เป็นคนที่คิดได้ลึกที่สุดในกลุ่ม", scores: {Mage:2, Support:1} },
+      { text:"🌫️ เป็นคนที่ไม่ค่อยสังเกตเห็น แต่ทำงานสำคัญ", scores: {Assassin:3} },
+      { text:"🛡️ เป็นคนที่ทุกคนรู้สึกปลอดภัยเมื่ออยู่ด้วย", scores: {Tank:2, Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกอาวุธในจินตนาการ คุณเลือกอะไร?",
+    choices: [
+      { text:"🏹 ธนูและลูกศร — โจมตีจากระยะไกล ไม่ต้องเสี่ยง", scores: {Marksman:3} },
+      { text:"🔮 ไม้เท้าเวทมนตร์ — พลังทำลายล้างอันมหาศาล", scores: {Mage:3} },
+      { text:"🗡️ มีดสั้น — เร็ว เงียบ ไม่ให้ตั้งตัว", scores: {Assassin:3} },
+      { text:"🛡️ โล่หนักๆ — ป้องกันตัวเองและคนอื่น", scores: {Tank:3} },
+    ]
+  },
+  {
+    text: "คุณชอบแก้ปัญหาแบบไหน?",
+    choices: [
+      { text:"📐 วิเคราะห์อย่างรอบคอบก่อน แล้วลงมือ", scores: {Mage:2, Marksman:1} },
+      { text:"⚡ ลงมือก่อนเลย แก้ระหว่างทาง", scores: {Assassin:2, Warrior:2} },
+      { text:"🤝 ระดมสมองกับคนอื่น ช่วยกันคิด", scores: {Support:3} },
+      { text:"🛡️ รอสถานการณ์ชัดเจนก่อน แล้วค่อยตัดสินใจ", scores: {Tank:3} },
+    ]
+  },
+  {
+    text: "เวลาเดินทาง คุณชอบสไตล์ไหน?",
+    choices: [
+      { text:"✈️ จองทัวร์ เตรียมทุกอย่างล่วงหน้า ปลอดภัย", scores: {Marksman:2, Support:1} },
+      { text:"🎒 แบกเป้คนเดียว ไปตามใจ ไม่มีแผน", scores: {Assassin:3} },
+      { text:"🗺️ วางแผนละเอียด ดูแผนที่ทุกจุด", scores: {Mage:2, Tank:1} },
+      { text:"👨‍👩‍👧‍👦 ไปเป็นกลุ่ม สนุกกว่า ดูแลกัน", scores: {Support:3, Warrior:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเข้าป่าโดยไม่มีอุปกรณ์ใดๆ คุณจะทำอะไรแรก?",
+    choices: [
+      { text:"🌳 ปีนต้นไม้สูงๆ สำรวจพื้นที่ก่อน", scores: {Marksman:3} },
+      { text:"🔥 ก่อไฟ สร้างที่พักก่อน ให้อยู่รอดได้นาน", scores: {Tank:2, Warrior:1} },
+      { text:"🦊 ติดตามสัตว์ป่า หาแหล่งน้ำและอาหาร", scores: {Assassin:2, Mage:1} },
+      { text:"📢 ส่งสัญญาณขอความช่วยเหลือ และดูแลคนอื่น", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณชอบทำงานในสภาพแวดล้อมแบบไหน?",
+    choices: [
+      { text:"🏢 โต๊ะตัวเอง มีขอบเขตชัดเจน ไม่วุ่นวาย", scores: {Marksman:2, Mage:1} },
+      { text:"☕ ร้านกาแฟ บรรยากาศสบายๆ เปลี่ยนได้บ่อย", scores: {Assassin:2, Warrior:1} },
+      { text:"🤝 Co-working ใกล้คน ช่วยกันได้ทุกเมื่อ", scores: {Support:3} },
+      { text:"🏔️ ที่เงียบ ไม่มีคน สมาธิเต็มที่", scores: {Tank:2, Mage:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกพลังพิเศษ คุณเลือกอะไร?",
+    choices: [
+      { text:"👁️ มองเห็นระยะไกลและแม่นยำเหมือนนกอินทรีย์", scores: {Marksman:3} },
+      { text:"🌪️ เคลื่อนที่เร็วกว่าสายตา ไม่มีใครจับได้", scores: {Assassin:3} },
+      { text:"🛡️ ผิวเหล็ก ไม่รู้สึกเจ็บปวด", scores: {Tank:3} },
+      { text:"💚 รักษาบาดแผลตัวเองและคนอื่นได้ทันที", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณมักได้รับคำชมเรื่องอะไรบ่อยที่สุด?",
+    choices: [
+      { text:"🎯 แม่นยำและรอบคอบ ทำอะไรออกมาดีเสมอ", scores: {Marksman:2, Support:1} },
+      { text:"⚡ ตัดสินใจเร็ว กล้าทำสิ่งที่คนอื่นไม่กล้า", scores: {Assassin:2, Warrior:1} },
+      { text:"🧠 ฉลาดและคิดลึก แก้ปัญหาได้ไม่เหมือนใคร", scores: {Mage:2, Marksman:1} },
+      { text:"💪 น่าเชื่อถือ ไม่เคยทิ้งให้ใครสู้คนเดียว", scores: {Tank:2, Support:3} },
+    ]
+  },
+  {
+    text: "เวลาทะเลาะกัน คุณมักทำอะไร?",
+    choices: [
+      { text:"🗣️ พูดตรงๆ จัดการให้จบเร็วที่สุด", scores: {Warrior:3} },
+      { text:"🧊 เงียบ รอให้อารมณ์เย็นลง แล้วค่อยคุย", scores: {Marksman:2, Tank:1} },
+      { text:"🎭 ออกไปก่อน หายตัวสักพัก แล้วค่อยกลับมา", scores: {Assassin:3} },
+      { text:"🤝 พยายามเป็นตัวกลาง ทำให้ทุกฝ่ายพอใจ", scores: {Support:3, Mage:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกระหว่างสองสิ่ง คุณเลือกแบบไหน?",
+    choices: [
+      { text:"🏹 ปลอดภัยแต่ดีลหนัก vs เสี่ยงแต่รวดเร็ว → ปลอดภัย", scores: {Marksman:3} },
+      { text:"🗡️ เงียบแต่ทรงพลัง vs ดังแต่สับสน → เงียบ", scores: {Assassin:3} },
+      { text:"⚔️ สู้ตรงๆ แต่บาดเจ็บ vs ถอยแต่ไม่มีแผล → สู้", scores: {Warrior:3} },
+      { text:"🛡️ ตัวเองเจ็บแต่คนอื่นปลอดภัย vs ทุกคนเจ็บน้อย → รับแทน", scores: {Tank:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องอธิบายตัวเองเป็นสภาพอากาศ คุณเป็นแบบไหน?",
+    choices: [
+      { text:"☀️ แดดจ้า ร้อน สว่าง ให้พลังงาน", scores: {Marksman:2, Warrior:1} },
+      { text:"⛈️ พายุฝน ฟ้าร้อง ฟ้าผ่า มาแรงและน่ากลัว", scores: {Mage:2, Assassin:1} },
+      { text:"🌬️ ลมเย็น เงียบ เคลื่อนไหวโดยไม่มีใครเห็น", scores: {Assassin:3} },
+      { text:"🌤️ เมฆบางๆ สบาย อบอุ่น ให้ทุกคนรู้สึกดี", scores: {Support:3, Tank:1} },
+    ]
+  },
+  {
+    text: "คุณนิยามคำว่า 'ชนะ' ว่าอย่างไร?",
+    choices: [
+      { text:"📊 ทำผลลัพธ์ได้สูงสุดและวัดได้ชัดเจน", scores: {Marksman:3, Mage:1} },
+      { text:"🗡️ กำจัดสิ่งกีดขวางทุกอย่างออกไปได้", scores: {Assassin:3} },
+      { text:"🤝 ทุกคนในทีมผ่านไปด้วยกันได้", scores: {Support:3, Tank:1} },
+      { text:"⚔️ สู้จนถึงที่สุดและไม่ยอมแพ้", scores: {Warrior:3} },
+    ]
+  },
+];
+
+// ============================================================
+// QUESTIONS — Deep Dive Extra (45 ข้อ) → รวมกับ Quick = 70
+// ============================================================
+const QUESTIONS_DEEP_EXTRA = [
+  {
+    text: "คุณมักตื่นมาทำอะไรเป็นอย่างแรก?",
+    choices: [
+      { text:"📱 เช็คข่าวสารและแผนของวันนี้ทันที", scores: {Marksman:2, Mage:1} },
+      { text:"🏋️ ออกกำลังกาย ปลุกพลังตัวเองก่อน", scores: {Warrior:3} },
+      { text:"☕ นั่งเงียบๆ กาแฟแก้วแรก คิดคนเดียว", scores: {Assassin:2, Tank:1} },
+      { text:"💬 ทักทายคนในบ้าน ทำให้บรรยากาศดี", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้ามีเวลาว่างหนึ่งชั่วโมง คุณจะทำอะไร?",
+    choices: [
+      { text:"📚 อ่านหนังสือหรือเรียนรู้สิ่งใหม่", scores: {Mage:2, Support:1} },
+      { text:"🎯 ฝึกทักษะที่ตัวเองอยากเก่ง", scores: {Marksman:2, Assassin:1} },
+      { text:"😴 นอนหลับ ชาร์จพลังก่อน", scores: {Tank:2, Warrior:1} },
+      { text:"🤝 หาเพื่อนคุย ไปเที่ยวด้วยกัน", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณจัดการกับความเครียดยังไง?",
+    choices: [
+      { text:"🌿 หายใจ ทำสมาธิ ค่อยๆ คลาย", scores: {Tank:2, Support:1} },
+      { text:"🏃 วิ่งหรือออกกำลังกายจนเหนื่อย", scores: {Warrior:3} },
+      { text:"🎮 เล่นเกมหรือทำอะไรคนเดียว", scores: {Assassin:2, Mage:1} },
+      { text:"📞 โทรหาเพื่อนหรือครอบครัว", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกอาหารเช้า คุณเลือกอะไร?",
+    choices: [
+      { text:"⚡ อาหารที่กินง่าย เร็ว ไม่เสียเวลา", scores: {Assassin:2, Marksman:1} },
+      { text:"🍳 อาหารทำเองอย่างประณีต ใช้เวลาหน่อย", scores: {Mage:2, Warrior:1} },
+      { text:"🥗 อาหารที่ดีต่อสุขภาพในระยะยาว", scores: {Tank:2, Support:1} },
+      { text:"🍰 ของหวานที่ชอบ ทำให้วันเริ่มต้นได้ดี", scores: {Support:2, Mage:1} },
+    ]
+  },
+  {
+    text: "คุณชอบนิทานหรือเรื่องราวแบบไหน?",
+    choices: [
+      { text:"🏹 นักล่าที่อาศัยความแม่นยำเอาชนะยักษ์", scores: {Marksman:3} },
+      { text:"🔮 พ่อมดที่ใช้ปัญญาพิชิตปีศาจทรงพลัง", scores: {Mage:3} },
+      { text:"🗡️ โจรผู้ดีที่แอบปล้นคนรวยให้คนจน", scores: {Assassin:3} },
+      { text:"🛡️ อัศวินที่เสียสละตนเพื่อปกป้องอาณาจักร", scores: {Tank:2, Support:2} },
+    ]
+  },
+  {
+    text: "ถ้าคุณเป็นผู้กำกับหนัง คุณจะสร้างหนังแบบไหน?",
+    choices: [
+      { text:"🎯 Thriller ระทึกใจ ทุกฉากสำคัญ", scores: {Assassin:2, Marksman:1} },
+      { text:"🌌 Epic Fantasy สเกลใหญ่ สวยงาม", scores: {Mage:2, Warrior:1} },
+      { text:"❤️ Drama มนุษย์สัมพันธ์ลึกซึ้ง", scores: {Support:3} },
+      { text:"⚔️ War Movie นักรบ เกียรติยศ การต่อสู้", scores: {Warrior:3, Tank:1} },
+    ]
+  },
+  {
+    text: "คุณชอบเดินทางแบบไหน?",
+    choices: [
+      { text:"✈️ เครื่องบิน เร็ว ตรงจุด ไม่เสียเวลา", scores: {Assassin:2, Marksman:1} },
+      { text:"🚂 รถไฟ เห็นวิว เดินทางยาวๆ คิดเรื่อง", scores: {Mage:2, Tank:1} },
+      { text:"🛵 มอเตอร์ไซค์ อิสระ ไปได้ทุกที่", scores: {Warrior:2, Assassin:1} },
+      { text:"🚌 รถบัสหรือรถตู้ ไปกับกลุ่ม สนุกกว่า", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือก Season ที่ชอบมากที่สุด?",
+    choices: [
+      { text:"☀️ ร้อน — สดใส มีพลังงาน กระฉับกระเฉง", scores: {Marksman:2, Warrior:1} },
+      { text:"🌧️ ฝน — เย็น เงียบสงบ ได้คิดเยอะ", scores: {Mage:2, Tank:1} },
+      { text:"🌙 ดึก/หน้าหนาว — มืด ลึกลับ ชอบอยู่คนเดียว", scores: {Assassin:3} },
+      { text:"🌸 ใบไม้ผลิ — ใหม่ๆ อบอุ่น ให้กำลังใจ", scores: {Support:3, Mage:1} },
+    ]
+  },
+  {
+    text: "คุณจะทำอะไรถ้าเห็นคนแปลกหน้าล้มในที่สาธารณะ?",
+    choices: [
+      { text:"🏃 วิ่งเข้าไปช่วยทันที ไม่ลังเล", scores: {Warrior:2, Support:2} },
+      { text:"📞 โทรเรียกคนที่ช่วยได้ดีกว่า", scores: {Support:2, Mage:1} },
+      { text:"👁️ สังเกตก่อนว่าปลอดภัยไหม แล้วค่อยช่วย", scores: {Marksman:2, Tank:1} },
+      { text:"🚶 เดินผ่าน ไม่ยุ่งกับเรื่องคนอื่น", scores: {Assassin:2, Warrior:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกสีที่แทนตัวคุณ?",
+    choices: [
+      { text:"🟡 ทอง/เหลือง — โดดเด่น มีพลัง สว่าง", scores: {Marksman:2, Warrior:1} },
+      { text:"🟣 ม่วง/น้ำเงิน — ลึกลับ ฉลาด ทรงพลัง", scores: {Mage:2, Assassin:1} },
+      { text:"⚫ ดำ — เงียบ เป็นตัวเอง ไม่แคร์ใคร", scores: {Assassin:3} },
+      { text:"🟢 เขียว — เติบโต สุขภาพดี ดูแลคนรอบข้าง", scores: {Tank:2, Support:2} },
+    ]
+  },
+  {
+    text: "คุณชอบ Pet ประเภทไหน?",
+    choices: [
+      { text:"🦅 นกล่าเหยื่อ — อิสระ แม่นยำ ทรงพลัง", scores: {Marksman:3} },
+      { text:"🐱 แมว — ฉลาด ลึกลับ เป็นตัวเอง", scores: {Assassin:2, Mage:1} },
+      { text:"🐕 สุนัข — ซื่อสัตย์ ปกป้องเจ้าของ", scores: {Tank:2, Support:2} },
+      { text:"🐉 มังกร (ถ้ามี) — ทรงพลัง ไม่มีใครสู้ได้", scores: {Warrior:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกระหว่างสองอาชีพ?",
+    choices: [
+      { text:"🏹 นักธนู/พลซุ่มยิง — อยู่ไกล โจมตีแม่น", scores: {Marksman:3} },
+      { text:"🔮 นักวิทยาศาสตร์/นักวิจัย — ค้นพบสิ่งใหม่", scores: {Mage:3} },
+      { text:"🗡️ นักสืบ/นักสอดแนม — หาความจริง", scores: {Assassin:3} },
+      { text:"🛡️ ทหาร/ตำรวจ — ปกป้องคนอื่น", scores: {Tank:2, Warrior:2} },
+    ]
+  },
+  {
+    text: "คุณชอบเรียนรู้สิ่งใหม่ยังไง?",
+    choices: [
+      { text:"📺 ดูวิดีโอและทำตาม ฝึกบ่อยๆ", scores: {Marksman:2, Warrior:1} },
+      { text:"📚 อ่านและทำความเข้าใจลึกซึ้งก่อน", scores: {Mage:3} },
+      { text:"💥 ลองทำเลยเลย พลาดแล้วค่อยแก้", scores: {Assassin:2, Warrior:1} },
+      { text:"🤝 เรียนจากคนที่เก่งกว่า ถามเยอะๆ", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณชอบหนังสือแนวไหน?",
+    choices: [
+      { text:"🎯 Thriller/Mystery — หาคำตอบและปริศนา", scores: {Assassin:2, Marksman:1} },
+      { text:"🌌 Science Fiction — โลกอนาคต เทคโนโลยี", scores: {Mage:2, Tank:1} },
+      { text:"⚔️ Epic Fantasy — การต่อสู้ นักรบ ชัยชนะ", scores: {Warrior:3} },
+      { text:"❤️ Romance/Drama — ความสัมพันธ์มนุษย์", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกสถานที่อยู่ในจินตนาการ?",
+    choices: [
+      { text:"🏰 ป้อมปราการสูงบนเนินเขา มองเห็นทุกทิศ", scores: {Marksman:3} },
+      { text:"🌋 ถ้ำใต้ภูเขาไฟ แยกตัว มีพลังงาน", scores: {Mage:2, Assassin:1} },
+      { text:"🌙 ป่ามืดกลางคืน ไม่มีใครตามหาได้", scores: {Assassin:3} },
+      { text:"🏡 หมู่บ้านที่ทุกคนรู้จักกัน ดูแลกัน", scores: {Tank:2, Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือก Superpower คุณเลือกอะไร?",
+    choices: [
+      { text:"🦅 มองเห็นได้ไกลและแม่นยำสุดๆ", scores: {Marksman:3} },
+      { text:"🧠 อ่านใจคนอื่นและรู้ทุกอย่าง", scores: {Mage:2, Support:1} },
+      { text:"👤 หายตัวได้ตามต้องการ", scores: {Assassin:3} },
+      { text:"🛡️ ทนต่อความเจ็บปวดและอยู่ยงคงกระพัน", scores: {Tank:3} },
+    ]
+  },
+  {
+    text: "คุณรับมือกับคนที่รั้งความก้าวหน้าของกลุ่มยังไง?",
+    choices: [
+      { text:"🗣️ พูดตรงๆ ให้รู้ว่าเป็นปัญหา", scores: {Warrior:3} },
+      { text:"🧠 หาวิธีดึงจุดแข็งของเขาออกมาใช้", scores: {Mage:2, Support:1} },
+      { text:"🚶 ทำงานของตัวเอง ไม่เสียเวลากับเรื่องนี้", scores: {Assassin:2, Marksman:1} },
+      { text:"🤝 ช่วยพัฒนาเขา อดทน ไม่ทอดทิ้ง", scores: {Support:3, Tank:1} },
+    ]
+  },
+  {
+    text: "คุณอยากให้คนอื่นจดจำคุณว่าเป็นแบบไหน?",
+    choices: [
+      { text:"🏆 คนที่ทำผลงานได้ดีที่สุดเสมอ", scores: {Marksman:2, Mage:1} },
+      { text:"💡 คนที่เก่งและคิดได้ไม่เหมือนใคร", scores: {Mage:2, Assassin:1} },
+      { text:"💪 คนที่แข็งแกร่งและไม่เคยยอมแพ้", scores: {Warrior:3} },
+      { text:"❤️ คนที่อยู่เคียงข้างเสมอและไว้ใจได้", scores: {Support:3, Tank:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกระหว่างโลกสองแบบ?",
+    choices: [
+      { text:"🌅 โลกที่ทุกอย่างชัดเจน มองเห็นได้ไกล", scores: {Marksman:2, Tank:1} },
+      { text:"🌌 โลกที่มีพลังงานลึกลับและเวทมนตร์", scores: {Mage:3} },
+      { text:"🌙 โลกที่มืดและซับซ้อน เต็มไปด้วยความลับ", scores: {Assassin:3} },
+      { text:"🌸 โลกที่ทุกคนช่วยเหลือกันและสันติสุข", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณชอบทำงานในสภาพแวดล้อมแบบไหน? (II)",
+    choices: [
+      { text:"📐 มีระเบียบ แผนชัดเจน ขั้นตอนแน่นอน", scores: {Marksman:2, Mage:1} },
+      { text:"💥 Chaos สร้างสรรค์ เปลี่ยนแปลงตลอด", scores: {Assassin:2, Warrior:1} },
+      { text:"🤝 ทีมดี สื่อสารดี ช่วยกันได้", scores: {Support:3} },
+      { text:"🏔️ เงียบสงบ ไม่มีคนรบกวน", scores: {Tank:2, Mage:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกเครื่องดนตรีหนึ่งชิ้น?",
+    choices: [
+      { text:"🎻 ไวโอลิน — ต้องการความแม่นยำและฝึกฝนมาก", scores: {Marksman:3} },
+      { text:"🎹 เปียโน — ซับซ้อน หลากหลาย ทรงพลัง", scores: {Mage:3} },
+      { text:"🥁 กลอง — จังหวะแรง มีพลัง ควบคุมวง", scores: {Warrior:2, Tank:1} },
+      { text:"🎸 กีตาร์เบส — อยู่เบื้องหลัง แต่ขาดไม่ได้", scores: {Support:3, Tank:1} },
+    ]
+  },
+  {
+    text: "คุณเลือกร้านอาหารยังไง?",
+    choices: [
+      { text:"⭐ ดูรีวิวและ Rating ก่อนเสมอ", scores: {Marksman:2, Mage:1} },
+      { text:"🌟 ฉันรู้ร้านดีอยู่แล้ว ตัดสินใจเร็ว", scores: {Warrior:2, Assassin:1} },
+      { text:"🔍 ชอบสำรวจร้านใหม่ที่ไม่มีใครรู้จัก", scores: {Assassin:2, Mage:1} },
+      { text:"🤝 ให้คนอื่นเลือก ขอแค่ได้ไปด้วยกัน", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกวิธีเอาชนะศัตรูที่แข็งแกร่งกว่า?",
+    choices: [
+      { text:"🏹 โจมตีจากระยะไกลที่เขาเอื้อมไม่ถึง", scores: {Marksman:3} },
+      { text:"🧠 ศึกษาจุดอ่อนแล้วใช้ Strategy ที่เขาไม่คาดคิด", scores: {Mage:2, Assassin:1} },
+      { text:"⚡ ตีแล้วหนี ตีแล้วหนี จนเขาเพลีย", scores: {Assassin:3} },
+      { text:"🛡️ รับให้ทน รอให้เขาหมดแรง", scores: {Tank:3} },
+    ]
+  },
+  {
+    text: "เวลาอยู่ในคิวรอนาน คุณทำอะไร?",
+    choices: [
+      { text:"📱 เช็คโซเชียลมีเดีย ไม่รู้สึกเสียเวลา", scores: {Mage:2, Support:1} },
+      { text:"🎯 วางแผนสิ่งที่จะทำหลังจากนี้", scores: {Marksman:2, Warrior:1} },
+      { text:"😤 หาทางออกจากคิว หรือหาคิวอื่น", scores: {Assassin:3} },
+      { text:"💬 คุยกับคนข้างๆ ทำให้เวลาผ่านไปเร็ว", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าได้เลือกจุดเด่นของตัวเองหนึ่งอย่าง คุณเลือกอะไร?",
+    choices: [
+      { text:"🎯 แม่นยำสุดๆ ทำอะไรออกมาดีเสมอ", scores: {Marksman:3} },
+      { text:"⚡ ตัดสินใจเร็ว และกล้าทำ", scores: {Assassin:3} },
+      { text:"💪 อดทน ไม่ยอมแพ้ต่อให้ยากแค่ไหน", scores: {Warrior:3, Tank:1} },
+      { text:"❤️ เอาใจใส่คนอื่น รู้สึกได้ว่าใครต้องการอะไร", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องอธิบายตัวเองเป็นตัวหมากรุก?",
+    choices: [
+      { text:"♛ ราชินี — เคลื่อนที่ได้ทุกทิศ ทรงพลังสูงสุด", scores: {Mage:2, Warrior:1} },
+      { text:"♞ ม้า — กระโดดข้ามอุปสรรค เข้าถึงในมุมที่คาดไม่ถึง", scores: {Assassin:3} },
+      { text:"♜ เรือ — ตรงไปตรงมา แรงและเชื่อถือได้", scores: {Warrior:2, Marksman:1} },
+      { text:"♟ เบี้ย — เล็กแต่สำคัญ เสียสละเพื่อส่วนรวม", scores: {Tank:2, Support:3} },
+    ]
+  },
+  {
+    text: "คุณชอบ Challenge ประเภทไหน?",
+    choices: [
+      { text:"🎯 ทักษะที่ต้องฝึกฝนซ้ำๆ จนเชี่ยวชาญ", scores: {Marksman:3} },
+      { text:"🧩 ปริศนาที่ต้องใช้ความคิดสร้างสรรค์", scores: {Mage:3} },
+      { text:"⚡ สถานการณ์ที่ต้องตัดสินใจภายใต้แรงกดดัน", scores: {Assassin:2, Warrior:1} },
+      { text:"🤝 ความท้าทายที่ต้องทำกับทีม", scores: {Support:3, Tank:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกระหว่างสองทาง?",
+    choices: [
+      { text:"🛣️ ทางตรง เร็ว แต่โล่งและเห็นได้ง่าย", scores: {Marksman:2, Warrior:1} },
+      { text:"🌲 ทางป่า ช้ากว่า แต่ไม่มีใครเห็น", scores: {Assassin:3} },
+      { text:"🗺️ ทางที่วิเคราะห์แล้วว่าปลอดภัยที่สุด", scores: {Mage:2, Tank:1} },
+      { text:"👫 ทางที่เพื่อนไป ไปด้วยกันดีกว่า", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณรู้สึกยังไงเมื่ออยู่ท่ามกลางคนเยอะๆ?",
+    choices: [
+      { text:"😊 สนุก มีพลัง ชอบอยู่กับคน", scores: {Support:2, Warrior:1} },
+      { text:"😤 เหมือนถูกรบกวน อยากพื้นที่ตัวเอง", scores: {Assassin:2, Mage:1} },
+      { text:"🦅 สังเกตทุกคน วิเคราะห์สถานการณ์", scores: {Marksman:2, Mage:1} },
+      { text:"🛡️ รู้สึกว่าต้องดูแลให้ทุกคนโอเค", scores: {Tank:2, Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกระหว่างสองเป้าหมาย?",
+    choices: [
+      { text:"🎯 ทำให้ดีที่สุด แม้ช้าหน่อย", scores: {Marksman:3} },
+      { text:"⚡ ทำให้เสร็จเร็วที่สุด แม้ไม่สมบูรณ์", scores: {Assassin:2, Warrior:1} },
+      { text:"🔮 ทำในแบบที่ไม่มีใครคิดมาก่อน", scores: {Mage:3} },
+      { text:"🤝 ทำร่วมกับคนอื่น แม้ผลออกมาไม่สุดยอด", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าคุณเป็นตัวละครในเทพนิยาย คุณเป็นใคร?",
+    choices: [
+      { text:"🏹 นักล่ามังกรผู้ใช้ธนูและสมอง", scores: {Marksman:3} },
+      { text:"🔮 พ่อมดผู้รู้ที่ปรึกษากษัตริย์", scores: {Mage:3} },
+      { text:"🗡️ โจรผู้ดีที่ปกป้องคนอ่อนแอ", scores: {Assassin:2, Warrior:1} },
+      { text:"🛡️ อัศวินผู้เสียสละเพื่อราษฎร", scores: {Tank:2, Support:2} },
+    ]
+  },
+  {
+    text: "คุณชอบสิ่งแวดล้อมแบบไหน?",
+    choices: [
+      { text:"🏔️ ภูเขาสูง อากาศบริสุทธิ์ มองเห็นทุกอย่าง", scores: {Marksman:3} },
+      { text:"🌋 ถ้ำลึก เต็มไปด้วยคริสตัลและแร่ธาตุ", scores: {Mage:2, Assassin:1} },
+      { text:"🌊 ทะเล กว้าง อิสระ ไม่มีขีดจำกัด", scores: {Warrior:2, Mage:1} },
+      { text:"🌿 ป่าสีเขียว อุดมสมบูรณ์ เต็มไปด้วยชีวิต", scores: {Tank:2, Support:2} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกวิธีเก็บเงิน?",
+    choices: [
+      { text:"📈 ลงทุนระยะยาว ค่อยๆ สะสม", scores: {Marksman:2, Tank:1} },
+      { text:"⚡ หาเงินเร็ว ใช้เร็ว ไม่เก็บ", scores: {Assassin:2, Warrior:1} },
+      { text:"🔮 ลงทุนในสิ่งที่คนอื่นยังไม่มองเห็น", scores: {Mage:3} },
+      { text:"🤝 แบ่งปันกับคนที่ต้องการมากกว่า", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณชอบเรียนรู้จากประสบการณ์แบบไหน?",
+    choices: [
+      { text:"🎯 ฝึกซ้ำๆ จนทำได้โดยอัตโนมัติ", scores: {Marksman:3} },
+      { text:"📚 เรียนรู้ทฤษฎีก่อน แล้วค่อยประยุกต์", scores: {Mage:3} },
+      { text:"💥 ลองผิดลองถูก เรียนรู้จากความล้มเหลว", scores: {Assassin:2, Warrior:1} },
+      { text:"🤝 เรียนรู้จากคนอื่น ถามและสังเกต", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกสิ่งที่สำคัญที่สุดในชีวิต?",
+    choices: [
+      { text:"🏆 ความสำเร็จและผลลัพธ์ที่วัดได้", scores: {Marksman:2, Warrior:1} },
+      { text:"🔮 ความรู้และการค้นพบสิ่งใหม่", scores: {Mage:3} },
+      { text:"🕊️ อิสระและการควบคุมชีวิตตัวเอง", scores: {Assassin:3} },
+      { text:"❤️ ความสัมพันธ์และการดูแลคนที่รัก", scores: {Support:3, Tank:1} },
+    ]
+  },
+  {
+    text: "คุณมักทำอะไรเมื่อรู้สึกไม่มีพลัง?",
+    choices: [
+      { text:"🎯 โฟกัสทำงานชิ้นเล็กให้เสร็จ สร้าง Momentum", scores: {Marksman:2, Warrior:1} },
+      { text:"🌙 อยู่คนเดียว ชาร์จพลังในความเงียบ", scores: {Assassin:2, Mage:1} },
+      { text:"🏋️ ออกกำลังกาย ให้ร่างกายปลุกจิตใจ", scores: {Warrior:3} },
+      { text:"📞 หาคนคุย รับพลังจากคนรอบข้าง", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าเป็นหน่วยงานพิเศษ คุณอยากเป็นสายงานไหน?",
+    choices: [
+      { text:"🔭 สายข่าวกรอง เก็บข้อมูลจากระยะไกล", scores: {Marksman:3} },
+      { text:"💣 สายวิเคราะห์ วางแผนระเบิดจุดสำคัญ", scores: {Mage:2, Assassin:1} },
+      { text:"🗡️ สายปฏิบัติการพิเศษ แทรกซึมเป้าหมาย", scores: {Assassin:3} },
+      { text:"🛡️ สายรักษาความปลอดภัย ปกป้อง VIP", scores: {Tank:3, Support:1} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกคำที่อธิบายตัวคุณได้ดีที่สุด?",
+    choices: [
+      { text:"🎯 แม่นยำ — ทำอะไรก็ออกมาดีเสมอ", scores: {Marksman:3} },
+      { text:"🔮 ฉลาด — คิดได้ในสิ่งที่คนอื่นมองข้าม", scores: {Mage:3} },
+      { text:"⚡ รวดเร็ว — ตัดสินใจและลงมือก่อนใคร", scores: {Assassin:3} },
+      { text:"💪 แกร่ง — ล้มแล้วลุกขึ้นได้เสมอ", scores: {Warrior:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องเลือกระหว่างสองสไตล์ชีวิต?",
+    choices: [
+      { text:"🏹 ใช้ชีวิตอย่างมีระเบียบ วางแผนทุกอย่าง", scores: {Marksman:2, Mage:1} },
+      { text:"🌪️ ใช้ชีวิตตามใจ เปลี่ยนแปลงได้ทุกเมื่อ", scores: {Assassin:2, Warrior:1} },
+      { text:"🏔️ ใช้ชีวิตเรียบง่าย มั่นคง ไม่ต้องการมาก", scores: {Tank:3} },
+      { text:"🌸 ใช้ชีวิตเพื่อคนอื่น ได้เห็นคนรอบข้างมีความสุข", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณให้ความสำคัญกับอะไรมากที่สุดในทีม?",
+    choices: [
+      { text:"📊 ผลลัพธ์ที่ดีและวัดได้", scores: {Marksman:2, Mage:1} },
+      { text:"🧠 ความคิดสร้างสรรค์และนวัตกรรม", scores: {Mage:2, Assassin:1} },
+      { text:"🤝 ความไว้วางใจและความสามัคคี", scores: {Support:3, Tank:1} },
+      { text:"⚔️ ความกล้าและการลงมือทำ", scores: {Warrior:3} },
+    ]
+  },
+  // === 4 ข้อใหม่เพิ่มจากเดิม 41 → 45 ข้อ (รวมกับ Quick 25 = 70) ===
+  {
+    text: "ถ้าต้องเลือกวิธีผ่อนคลายหลังวันหนัก?",
+    choices: [
+      { text:"🎯 นั่งฝึกทักษะอะไรบางอย่างคนเดียวอย่างเงียบๆ", scores: {Marksman:3} },
+      { text:"📖 อ่านหนังสือหรือดูสารคดีที่น่าสนใจ", scores: {Mage:2, Tank:1} },
+      { text:"🌲 ออกไปวิ่งหรือเดินในที่ที่ไม่มีคน", scores: {Assassin:2, Warrior:1} },
+      { text:"🍕 รวมกลุ่มเพื่อนกินข้าว คุยเล่น ลืมเรื่องงาน", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "ถ้าต้องปกป้องสิ่งที่รัก คุณจะทำยังไง?",
+    choices: [
+      { text:"🏹 วางตำแหน่งไว้ห่างๆ ดูแลจากระยะปลอดภัย", scores: {Marksman:3} },
+      { text:"🔮 ใช้สติปัญญาสร้างกำแพงที่ศัตรูเจาะไม่ได้", scores: {Mage:2, Tank:1} },
+      { text:"🛡️ ยืนกั้นไว้ตรงหน้า ไม่ให้ใครผ่านมาได้", scores: {Tank:3, Warrior:1} },
+      { text:"💚 เดินอยู่เคียงข้าง ดูแลทุกความต้องการ", scores: {Support:3} },
+    ]
+  },
+  {
+    text: "คุณมองตัวเองเป็นคนแบบไหนในสายตาคนอื่น?",
+    choices: [
+      { text:"🎯 คนที่น่าเชื่อถือ ทำอะไรออกมาดีเสมอ", scores: {Marksman:2, Support:1} },
+      { text:"⚡ คนที่ดูน่ากลัวหรือคาดเดาไม่ได้", scores: {Assassin:3} },
+      { text:"💪 คนที่ดูแข็งแกร่งและไม่มีอะไรหยุดยั้งได้", scores: {Warrior:2, Tank:1} },
+      { text:"☀️ คนที่ทำให้คนรอบข้างรู้สึกอบอุ่นและปลอดภัย", scores: {Support:3, Tank:1} },
+    ]
+  },
+  {
+    text: "ถ้ามีเวลาเรียนรู้ทักษะใหม่หนึ่งอย่าง คุณเลือกอะไร?",
+    choices: [
+      { text:"🏹 การยิงธนูหรือสไนเปอร์ — ฝึกความนิ่งและแม่นยำ", scores: {Marksman:3} },
+      { text:"🔮 การทำนายหรือเล่นไพ่ Tarot — เข้าใจคนและจิตวิทยา", scores: {Mage:2, Support:1} },
+      { text:"🥷 ศิลปะการต่อสู้ลอบเร้น — เร็วและเงียบ", scores: {Assassin:3} },
+      { text:"🛡️ First Aid/การช่วยชีวิต — ดูแลคนอื่นได้จริง", scores: {Support:2, Tank:2} },
+    ]
+  },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  mode: 'quick',
+  questions: [],
+  current: 0,
+  answers: [],
+  scores: { Marksman:0, Mage:0, Assassin:0, Warrior:0, Tank:0, Support:0 },
+  globalStats: { Marksman:30, Mage:25, Assassin:18, Warrior:14, Tank:8, Support:5 }
+};
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function goToPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(pageId);
+  void target.offsetWidth;
+  target.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ============================================================
+// QUIZ START
+// ============================================================
+function startQuiz(mode) {
+  state.mode = mode;
+  state.current = 0;
+  state.answers = [];
+  state.scores = { Marksman:0, Mage:0, Assassin:0, Warrior:0, Tank:0, Support:0 };
+
+  if (mode === 'quick') {
+    state.questions = shuffleArray([...QUESTIONS_QUICK]).slice(0, 25);
+  } else {
+    const all = [...QUESTIONS_QUICK, ...QUESTIONS_DEEP_EXTRA];
+    state.questions = shuffleArray(all).slice(0, 70);
+  }
+
+  document.getElementById('q-total').textContent = state.questions.length;
+  document.getElementById('mode-label').textContent = mode === 'quick' ? '⚡ Quick Mode' : '🔍 Deep Dive';
+  renderQuestion();
+  goToPage('page-quiz');
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ============================================================
+// RENDER QUESTION
+// ============================================================
+function renderQuestion() {
+  const q = state.questions[state.current];
+  const total = state.questions.length;
+  const progress = (state.current / total) * 100;
+
+  document.getElementById('q-current').textContent = state.current + 1;
+  document.getElementById('progress-fill').style.width = progress + '%';
+  document.getElementById('q-num').textContent = `คำถามที่ ${state.current + 1}`;
+  document.getElementById('q-text').textContent = q.text;
+
+  const mini = document.getElementById('role-scores-mini');
+  const roleLabels = { Marksman:'🏹', Mage:'🔮', Assassin:'🗡️', Warrior:'⚔️', Tank:'🛡️', Support:'💚' };
+  if (state.current > 0) {
+    mini.innerHTML = Object.entries(state.scores)
+      .sort((a,b) => b[1]-a[1])
+      .map(([r, s]) => `<span class="role-pill">${roleLabels[r]} ${r.slice(0,4)} ${s}</span>`)
+      .join('');
+  } else {
+    mini.innerHTML = '';
+  }
+
+  const prevAnswer = state.answers[state.current];
+  const grid = document.getElementById('choices-grid');
+  const labels = ['A','B','C','D'];
+  grid.innerHTML = q.choices.map((c, i) => `
+    <button class="choice-btn glass ${prevAnswer !== undefined && prevAnswer.choiceIndex === i ? 'selected' : ''}"
+      onclick="selectChoice(${i})">
+      <span class="choice-label">${labels[i]}</span>
+      ${c.text}
+    </button>
+  `).join('');
+
+  document.getElementById('btn-back').disabled = state.current === 0;
+}
+
+// ============================================================
+// SELECT CHOICE
+// ============================================================
+function selectChoice(index) {
+  const q = state.questions[state.current];
+  const choice = q.choices[index];
+
+  document.querySelectorAll('.choice-btn').forEach((b, i) => {
+    b.classList.toggle('selected', i === index);
+    b.disabled = true;
+  });
+
+  if (state.answers[state.current] !== undefined) {
+    const prevScores = state.answers[state.current].scores;
+    Object.entries(prevScores).forEach(([role, pts]) => {
+      state.scores[role] = (state.scores[role] || 0) - pts;
+    });
+  }
+
+  state.answers[state.current] = { choiceIndex: index, scores: choice.scores };
+  Object.entries(choice.scores).forEach(([role, pts]) => {
+    state.scores[role] = (state.scores[role] || 0) + pts;
+  });
+
+  setTimeout(() => {
+    state.current++;
+    if (state.current < state.questions.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 420);
+}
+
+// ============================================================
+// GO BACK
+// ============================================================
+function goBack() {
+  if (state.current === 0) return;
+
+  if (state.answers[state.current] !== undefined) {
+    const prevScores = state.answers[state.current].scores;
+    Object.entries(prevScores).forEach(([role, pts]) => {
+      state.scores[role] = Math.max(0, (state.scores[role] || 0) - pts);
+    });
+  }
+
+  state.current--;
+  renderQuestion();
+}
+
+// ============================================================
+// CONFIRM QUIT
+// ============================================================
+function confirmQuit() {
+  if (confirm('ออกจากแบบทดสอบ? ความคืบหน้าจะหายไป')) {
+    goToPage('page-landing');
+  }
+}
+
+// ============================================================
+// SHOW RESULT
+// ============================================================
+function showResult() {
+  const winner = Object.entries(state.scores).sort((a,b) => b[1]-a[1])[0][0];
+  const chars = ROLES[winner].chars;
+  const char = chars[Math.floor(Math.random() * chars.length)];
+
+  document.getElementById('result-avatar').textContent = char.emoji;
+  document.getElementById('result-name').textContent = char.name;
+
+  const roleEl = document.getElementById('result-role');
+  roleEl.textContent = `${ROLES[winner].emoji} ${winner} · ${ROLES[winner].desc}`;
+  roleEl.className = `result-role role-${winner}`;
+
+  document.getElementById('result-desc').textContent = char.desc;
+
+  const total = Object.values(state.scores).reduce((a,b)=>a+b,0) || 1;
+  const breakdown = document.getElementById('score-breakdown');
+  breakdown.innerHTML = Object.entries(state.scores)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([r,s]) => `
+      <div class="score-pill ${r === winner ? 'winner' : ''}">
+        ${ROLES[r].emoji} ${r} ${Math.round(s/total*100)}%
+      </div>
+    `).join('');
+
+  state.globalStats[winner]++;
+  goToPage('page-result');
+}
+
+// ============================================================
+// STATS PAGE
+// ============================================================
+function goToStats() {
+  renderStats();
+  goToPage('page-stats');
+}
+
+function renderStats() {
+  const total = Object.values(state.globalStats).reduce((a,b)=>a+b, 0);
+  const sorted = Object.entries(state.globalStats).sort((a,b)=>b[1]-a[1]);
+  const maxVal = sorted[0][1];
+
+  const chart = document.getElementById('bar-chart');
+  chart.innerHTML = sorted.map(([role, val]) => {
+    const pct = Math.round(val / total * 100);
+    const width = Math.round(val / maxVal * 100);
+    return `
+      <div class="bar-row">
+        <div class="bar-meta">
+          <span class="bar-name">${ROLES[role].emoji} ${role}</span>
+          <span class="bar-pct">${pct}%</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill ${ROLES[role].color}" style="width:0%" data-width="${width}%"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.bar-fill').forEach(b => {
+        b.style.width = b.dataset.width;
+      });
+    });
+  });
+}
+</script>
+</body>
+</html>
